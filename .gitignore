@@ -5,3 +5,6 @@
 target/
 classes/
 tmp/
+
+*.db
+db-dump/

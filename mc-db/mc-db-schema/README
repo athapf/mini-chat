@@ -1,0 +1,3 @@
+
+clean, migrate und dbunit export
+mvn compile flyway:clean flyway:migrate dbunit:export -f mc-schema/

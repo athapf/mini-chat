@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>mc.db</groupId>
+        <artifactId>mc-db</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <groupId>mc.db</groupId>
+    <artifactId>mc-db-schema</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>mc-db-schema</name>
+
+    <properties>
+        <dbunit.maven.plugin.version>1.0-beta-3</dbunit.maven.plugin.version>
+
+        <local.database.dir>${project.basedir}</local.database.dir>
+
+        <flyway.version>3.2.1</flyway.version>
+        <dbunit.version>2.2</dbunit.version>
+        <h2.version>1.3.176</h2.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <url>jdbc:h2:file:${local.database.dir}/minichat-db</url>
+                    <user>sa</user>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <!--<table>SCHEMA_VERSION</table>-->
+                    <locations>
+                        <location>db/local/schema</location>
+                        <location>db/local/develop</location>
+                    </locations>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dbunit-maven-plugin</artifactId>
+                <version>${dbunit.maven.plugin.version}</version>
+                <configuration>
+                    <driver>org.h2.Driver</driver>
+                    <url>jdbc:h2:file:${local.database.dir}/minichat-db</url>
+                    <username>sa</username>
+                    <password></password>
+                    <encoding>utf-8</encoding>
+                    <!--<format>flat</format>-->
+                    <caseSensitiveTableNames>true</caseSensitiveTableNames>
+                    <dataTypeFactoryName>org.dbunit.ext.h2.H2DataTypeFactory</dataTypeFactoryName>
+                    <dest>db-dump/minichat-dump.xml</dest>
+                    <tables>
+                        <table><name>T_CHAT_MESSAGE</name></table>
+                    </tables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>export</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>export</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+        </dependency>
+    </dependencies>
+</project>
