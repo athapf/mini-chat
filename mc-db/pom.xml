@@ -13,7 +13,7 @@
 
     <modules>
         <module>mc-db-schema</module>
-        <!--<module>mc-db-store</module>-->
+        <module>mc-db-common</module>
     </modules>
 
     <properties>
