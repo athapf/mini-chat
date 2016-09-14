@@ -22,6 +22,7 @@ public class PropertiesManager {
     private static final char JAVA_FILE_SEPARATOR = '/';
     private static final String DEVELOP_PROPERTIES = "develop.properties";
     private static final String PROJECT_HOME = "PROJECT_HOME";
+    private static final String USER_HOME = "user.home";
 
     public static Properties readDevelopProperties() {
         return readDevelopProperties(DEVELOP_PROPERTIES);
@@ -44,7 +45,7 @@ public class PropertiesManager {
             properties.putAll(loadPropertiesFromFile(projectPropertiesFileName));
         }
 
-        final String userHomePropertiesFileName = StringUtils.join(System.getProperty("user.home"), SYSTEM_FILE_SEPARATOR, propertiesFileName);
+        final String userHomePropertiesFileName = StringUtils.join(System.getProperty(USER_HOME), SYSTEM_FILE_SEPARATOR, propertiesFileName);
         properties.putAll(loadPropertiesFromFile(userHomePropertiesFileName));
 
         return properties;

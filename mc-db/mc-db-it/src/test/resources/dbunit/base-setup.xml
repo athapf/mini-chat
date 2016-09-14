@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <T_CHAT_MESSAGE ID="1" TIMESTAMP="2016-09-08 14:49:37.835" NICK="demo" ROOM="test" MESSAGE="a test message"/>
+</dataset>
