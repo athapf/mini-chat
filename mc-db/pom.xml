@@ -9,8 +9,6 @@
     <artifactId>mc-db</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>mc-db</name>
-
     <modules>
         <module>mc-db-schema</module>
         <module>mc-db-common</module>
