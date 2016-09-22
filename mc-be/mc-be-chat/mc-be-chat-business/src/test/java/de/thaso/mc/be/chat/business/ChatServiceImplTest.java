@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -61,6 +62,20 @@ public class ChatServiceImplTest {
         when(chatMessageMapper.chatMessageListToDOList(chatMessageEntityList)).thenReturn(chatMessageList);
         // when
         final List<ChatMessage> result = underTest.findLast10ChatMessages();
+        // then
+        assertThat(result, is(chatMessageList));
+    }
+
+    @Test
+    public void testFind10ChatMessagesSince() {
+        // given
+        final Date timestamp = new Date();
+        final List<ChatMessageEntity> chatMessageEntityList = new ArrayList<>();
+        when(chatMessageDAO.findChatMessagesSince(timestamp)).thenReturn(chatMessageEntityList);
+        final List<ChatMessage> chatMessageList = new ArrayList<>();
+        when(chatMessageMapper.chatMessageListToDOList(chatMessageEntityList)).thenReturn(chatMessageList);
+        // when
+        final List<ChatMessage> result = underTest.find10ChatMessagesSince(timestamp);
         // then
         assertThat(result, is(chatMessageList));
     }

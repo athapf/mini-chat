@@ -9,6 +9,7 @@ import de.thaso.minichat.db.store.ChatMessageEntity;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,5 +38,11 @@ public class ChatServiceImpl implements ChatService {
     public List<ChatMessage> findLast10ChatMessages() {
         final List<ChatMessageEntity> lastChatMessageList = chatMessageDAO.findLastChatMessages();
         return chatMessageMapper.chatMessageListToDOList(lastChatMessageList);
+    }
+
+    @Override
+    public List<ChatMessage> find10ChatMessagesSince(final Date timestamp) {
+        final List<ChatMessageEntity> chatMessageList = chatMessageDAO.findChatMessagesSince(timestamp);
+        return chatMessageMapper.chatMessageListToDOList(chatMessageList);
     }
 }
