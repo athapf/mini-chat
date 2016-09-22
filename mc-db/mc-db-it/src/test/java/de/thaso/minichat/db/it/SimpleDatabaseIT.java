@@ -4,6 +4,7 @@ import de.thaso.minichat.db.it.base.DbTestBase;
 import de.thaso.minichat.db.it.utils.SecondCauseMatcher;
 import de.thaso.minichat.db.store.ChatMessageDAO;
 import de.thaso.minichat.db.store.ChatMessageEntity;
+import org.apache.commons.lang3.time.DateUtils;
 import org.h2.jdbc.JdbcSQLException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -87,6 +89,23 @@ public class SimpleDatabaseIT extends DbTestBase {
         final List<ChatMessageEntity> result = underTest.findLastChatMessages();
         // then
         assertThat(result.size(), is(10));
+        Long previousTimestamp = null;
+        for (ChatMessageEntity chatMessageEntity : result) {
+            if(previousTimestamp != null) {
+                assertThat(chatMessageEntity.getTimestamp().getTime(),is(lessThan(previousTimestamp)));
+            }
+            previousTimestamp = chatMessageEntity.getTimestamp().getTime();
+        }
+    }
+
+    @Test
+    public void testFindChatMessagesSince() throws SQLException, ParseException {
+        // given
+        final Date timestamp = DateUtils.parseDate("2015-09-09 14:49:37.837", "yyyy-MM-dd hh:mm:ss.SSS");
+        // when
+        final List<ChatMessageEntity> result = underTest.findChatMessagesSince(timestamp);
+        // then
+        assertThat(result.size(), is(5));
         Long previousTimestamp = null;
         for (ChatMessageEntity chatMessageEntity : result) {
             if(previousTimestamp != null) {

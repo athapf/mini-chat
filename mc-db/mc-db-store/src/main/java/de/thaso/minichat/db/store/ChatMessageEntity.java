@@ -26,13 +26,15 @@ import java.util.Date;
 @Entity
 @Table(name = "T_CHAT_MESSAGE")
 @NamedQueries({
-    @NamedQuery(name = ChatMessageEntity.FIND_LAST_MESSAGES, query = "select cm from ChatMessageEntity cm order by cm.timestamp desc")
+    @NamedQuery(name = ChatMessageEntity.FIND_LAST_MESSAGES, query = "select cm from ChatMessageEntity cm order by cm.timestamp desc"),
+    @NamedQuery(name = ChatMessageEntity.FIND_MESSAGES_SINCE, query = "select cm from ChatMessageEntity cm where cm.timestamp > :since order by cm.timestamp desc")
 })
 public class ChatMessageEntity extends EntityBase {
 
     private static final long serialVersionUID = -4319045348350461073L;
 
     public static final String FIND_LAST_MESSAGES = "FIND_LAST_MESSAGES";
+    public static final String FIND_MESSAGES_SINCE = "FIND_MESSAGES_SINCE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messageSequence")

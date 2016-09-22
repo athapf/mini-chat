@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -113,6 +114,22 @@ public class ChatMessageDAOTest {
         final List<ChatMessageEntity> result = underTest.findLastChatMessages();
         // then
         assertThat(result,is(messageEntityList));
+        verify(query).setMaxResults(10);
+    }
+
+    @Test
+    public void findChatMessagesSince() {
+        // given
+        final TypedQuery query = mock(TypedQuery.class);
+        when(entityManager.createNamedQuery(ChatMessageEntity.FIND_MESSAGES_SINCE,ChatMessageEntity.class)).thenReturn(query);
+        final List<ChatMessageEntity> messageEntityList = new ArrayList<>();
+        when(query.getResultList()).thenReturn(messageEntityList);
+        final Date timestamp = new Date();
+        // when
+        final List<ChatMessageEntity> result = underTest.findChatMessagesSince(timestamp);
+        // then
+        assertThat(result,is(messageEntityList));
+        verify(query).setParameter("since",timestamp);
         verify(query).setMaxResults(10);
     }
 }

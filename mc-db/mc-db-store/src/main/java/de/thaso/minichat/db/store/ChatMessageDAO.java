@@ -6,6 +6,7 @@ import de.thaso.minichat.db.common.MiniChatDbError;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,14 @@ public class ChatMessageDAO {
     public List<ChatMessageEntity> findLastChatMessages() {
         final TypedQuery<ChatMessageEntity> query
                 = entityManager.createNamedQuery(ChatMessageEntity.FIND_LAST_MESSAGES, ChatMessageEntity.class);
+        query.setMaxResults(10);
+        return query.getResultList();
+    }
+
+    public List<ChatMessageEntity> findChatMessagesSince(final Date timestamp) {
+        final TypedQuery<ChatMessageEntity> query
+                = entityManager.createNamedQuery(ChatMessageEntity.FIND_MESSAGES_SINCE, ChatMessageEntity.class);
+        query.setParameter("since", timestamp);
         query.setMaxResults(10);
         return query.getResultList();
     }
