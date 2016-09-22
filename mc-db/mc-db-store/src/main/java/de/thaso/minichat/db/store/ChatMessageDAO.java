@@ -5,6 +5,8 @@ import de.thaso.minichat.db.common.MiniChatDbError;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * ChatMessageDAO
@@ -33,5 +35,12 @@ public class ChatMessageDAO {
             throw new MiniChatDatabaseException(MiniChatDbError.ENTITY_NOT_FOUND, "ChatMessage with id " + id + " not found!");
         }
         return chatMessage;
+    }
+
+    public List<ChatMessageEntity> findLastChatMessages() {
+        final TypedQuery<ChatMessageEntity> query
+                = entityManager.createNamedQuery(ChatMessageEntity.FIND_LAST_MESSAGES, ChatMessageEntity.class);
+        query.setMaxResults(10);
+        return query.getResultList();
     }
 }

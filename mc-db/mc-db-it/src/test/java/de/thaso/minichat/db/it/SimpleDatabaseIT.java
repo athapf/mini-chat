@@ -2,21 +2,27 @@ package de.thaso.minichat.db.it;
 
 import de.thaso.minichat.db.it.base.DbTestBase;
 import de.thaso.minichat.db.it.utils.SecondCauseMatcher;
+import de.thaso.minichat.db.store.ChatMessageDAO;
 import de.thaso.minichat.db.store.ChatMessageEntity;
 import org.h2.jdbc.JdbcSQLException;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
 
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * SimpleIT
@@ -26,8 +32,16 @@ import static org.hamcrest.core.Is.is;
  */
 public class SimpleDatabaseIT extends DbTestBase {
 
+    @InjectMocks
+    private ChatMessageDAO underTest;
+
     @Rule
     public ExpectedException exception = ExpectedException.none();
+
+    @Before
+    public void setUp() {
+        initMocks(this);
+    }
 
     @Test
     public void testStoreNote() throws SQLException {
@@ -45,7 +59,7 @@ public class SimpleDatabaseIT extends DbTestBase {
         entityManager.flush();
         final ResultSet resultSet = getConnection().prepareStatement("select count(*) from T_CHAT_MESSAGE").executeQuery();
         resultSet.next();
-        assertThat(resultSet.getInt(1),is(2));
+        assertThat(resultSet.getInt(1),is(15));
     }
 
     @Test
@@ -65,5 +79,20 @@ public class SimpleDatabaseIT extends DbTestBase {
         exception.expectCause(new SecondCauseMatcher(JdbcSQLException.class, "PRIMARY_KEY"));
         // when
         entityManager.persist(chatMessageEntity);
+    }
+
+    @Test
+    public void testFindLastChatMessages() throws SQLException {
+        // when
+        final List<ChatMessageEntity> result = underTest.findLastChatMessages();
+        // then
+        assertThat(result.size(), is(10));
+        Long previousTimestamp = null;
+        for (ChatMessageEntity chatMessageEntity : result) {
+            if(previousTimestamp != null) {
+                assertThat(chatMessageEntity.getTimestamp().getTime(),is(lessThan(previousTimestamp)));
+            }
+            previousTimestamp = chatMessageEntity.getTimestamp().getTime();
+        }
     }
 }

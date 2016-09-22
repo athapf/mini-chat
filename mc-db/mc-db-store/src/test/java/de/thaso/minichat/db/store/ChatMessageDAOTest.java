@@ -11,11 +11,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -96,5 +100,19 @@ public class ChatMessageDAOTest {
         exception.expect(EXCEPTION_MATCHER_ENTITY_NOT_FOUND);
         // when
         final ChatMessageEntity result = underTest.loadChatMessageById(primaryKey);
+    }
+
+    @Test
+    public void findLastChatMessages() {
+        // given
+        final TypedQuery query = mock(TypedQuery.class);
+        when(entityManager.createNamedQuery(ChatMessageEntity.FIND_LAST_MESSAGES,ChatMessageEntity.class)).thenReturn(query);
+        final List<ChatMessageEntity> messageEntityList = new ArrayList<>();
+        when(query.getResultList()).thenReturn(messageEntityList);
+        // when
+        final List<ChatMessageEntity> result = underTest.findLastChatMessages();
+        // then
+        assertThat(result,is(messageEntityList));
+        verify(query).setMaxResults(10);
     }
 }
