@@ -5,7 +5,6 @@ import de.thaso.minichat.db.it.utils.SecondCauseMatcher;
 import de.thaso.minichat.db.store.ChatMessageDAO;
 import de.thaso.minichat.db.store.ChatMessageEntity;
 import org.apache.commons.lang3.time.DateUtils;
-import org.h2.jdbc.JdbcSQLException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -78,7 +77,7 @@ public class SimpleDatabaseIT extends DbTestBase {
         chatMessageEntity.setMessage("this should know all developer ...");
 
         exception.expect(RollbackException.class);
-        exception.expectCause(new SecondCauseMatcher(JdbcSQLException.class, "PRIMARY_KEY"));
+        exception.expectCause(new SecondCauseMatcher(SQLException.class, "PRIMARY_KEY", "Unique-Constraint"));
         // when
         entityManager.persist(chatMessageEntity);
     }

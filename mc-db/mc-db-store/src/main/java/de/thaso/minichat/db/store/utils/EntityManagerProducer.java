@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
  */
 public class EntityManagerProducer {
 
-    @PersistenceContext(unitName = "demodb")
+    @PersistenceContext(unitName = "minichatdb")
     private EntityManager entityManager;
 
     @Produces

@@ -12,18 +12,24 @@ import org.hamcrest.TypeSafeMatcher;
 public class SecondCauseMatcher extends TypeSafeMatcher<Throwable> {
 
     private final Class<? extends Throwable> type;
-    private final String expectedMessage;
+    private final String[] expectedMessages;
 
-    public SecondCauseMatcher(Class<? extends Throwable> type, String expectedMessage) {
+    public SecondCauseMatcher(Class<? extends Throwable> type, String... expectedMessages) {
         this.type = type;
-        this.expectedMessage = expectedMessage;
+        this.expectedMessages = expectedMessages;
     }
 
     @Override
     protected boolean matchesSafely(Throwable item) {
         Throwable throwable = item.getCause();
-        return throwable.getClass().isAssignableFrom(type)
-                && throwable.getMessage().contains(expectedMessage);
+        if(type.isAssignableFrom(throwable.getClass())) {
+            for(String message : expectedMessages) {
+                if (throwable.getMessage().contains(message)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -31,6 +37,6 @@ public class SecondCauseMatcher extends TypeSafeMatcher<Throwable> {
         description.appendText("expects type ")
                 .appendValue(type)
                 .appendText(" and a message ")
-                .appendValue(expectedMessage);
+                .appendValue(expectedMessages);
     }
 }
