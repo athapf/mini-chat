@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
     <title>MiniChat</title>
 </h:head>
 <h:body>
     <h1>Component</h1>
     <p>Message: #{chatController.message}</p>
+    <h:dataTable value="#{chatController.readLastChatMessages()}" var="elem" id="myTable">
+        <h:column id="colRoom">
+            <f:facet name="header"><h:outputText value="Room" /></f:facet>
+            <h:outputText value="#{elem.room}" id="room" />
+        </h:column>
+        <h:column id="colNick">
+            <f:facet name="header"><h:outputText value="Nick" /></f:facet>
+            <h:outputText value="#{elem.nick}" id="nick" />
+        </h:column>
+        <h:column id="colMessage">
+            <f:facet name="header"><h:outputText value="Message" /></f:facet>
+            <h:outputText value="#{elem.message}" id="message" />
+        </h:column>
+    </h:dataTable>
 </h:body>
 </html>

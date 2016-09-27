@@ -19,5 +19,10 @@
   <name>mc-fe-chat</name>
 
   <dependencies>
+    <dependency>
+      <groupId>mc.be.chat</groupId>
+      <artifactId>mc-be-chat-service</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
