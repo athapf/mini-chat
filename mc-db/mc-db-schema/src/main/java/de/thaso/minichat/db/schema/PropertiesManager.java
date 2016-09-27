@@ -23,6 +23,7 @@ public class PropertiesManager {
     private static final String DEVELOP_PROPERTIES = "develop.properties";
     private static final String PROJECT_HOME = "PROJECT_HOME";
     private static final String USER_HOME = "user.home";
+    private static final String DEVELOP_PROPERTIES_FILE = "develop.properties.file";
 
     public static Properties readDevelopProperties() {
         return readDevelopProperties(DEVELOP_PROPERTIES);
@@ -47,6 +48,11 @@ public class PropertiesManager {
 
         final String userHomePropertiesFileName = StringUtils.join(System.getProperty(USER_HOME), SYSTEM_FILE_SEPARATOR, propertiesFileName);
         properties.putAll(loadPropertiesFromFile(userHomePropertiesFileName));
+
+        final String developPropertiesFileName = System.getProperty(DEVELOP_PROPERTIES_FILE);
+        if(StringUtils.isNotEmpty(developPropertiesFileName)) {
+            properties.putAll(loadPropertiesFromFile(developPropertiesFileName));
+        }
 
         return properties;
     }
