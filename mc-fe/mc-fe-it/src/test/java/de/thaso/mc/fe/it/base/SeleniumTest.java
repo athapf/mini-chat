@@ -30,7 +30,6 @@ public class SeleniumTest {
 //        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 //        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
 //        driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-
     }
 
     @After

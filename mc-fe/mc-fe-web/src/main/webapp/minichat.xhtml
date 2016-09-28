@@ -8,8 +8,14 @@
 </h:head>
 <h:body>
     <h1>Component</h1>
-    <p>Message: #{chatController.message}</p>
-    <h:dataTable value="#{chatController.readLastChatMessages()}" var="elem" id="myTable">
+    <p>Message: #{chatOverviewModel.simpleMessage}</p>
+    <h:dataTable value="#{chatOverviewModel.lastChatMessages}" var="elem" id="myTable">
+        <h:column id="colTime">
+            <f:facet name="header"><h:outputText value="Timestamp" /></f:facet>
+            <h:outputText value="#{elem.timestamp}" id="timestamp">
+                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS" />
+            </h:outputText>
+        </h:column>
         <h:column id="colRoom">
             <f:facet name="header"><h:outputText value="Room" /></f:facet>
             <h:outputText value="#{elem.room}" id="room" />

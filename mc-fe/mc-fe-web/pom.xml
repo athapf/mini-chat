@@ -33,6 +33,7 @@
             <groupId>mc.be.chat</groupId>
             <artifactId>mc-be-chat-business</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 

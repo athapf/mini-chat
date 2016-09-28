@@ -19,8 +19,8 @@ public class OverviewPageTest extends SeleniumTest {
     public void testOverviewPage() {
         getDriver().get("http://localhost:9080/mc/minichat.xhtml");
         final WebElement roomElement = getDriver().findElementById("myTable:0:room");
-        assertThat(roomElement.getText(),is("public"));
+        assertThat(roomElement.getText(),is("test"));
         final WebElement nickElement = getDriver().findElementById("myTable:0:nick");
-        assertThat(nickElement.getText(),is("ich"));
+        assertThat(nickElement.getText(),is("demo"));
     }
 }
