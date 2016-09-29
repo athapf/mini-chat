@@ -10,11 +10,11 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <groupId>mc.fe</groupId>
     <artifactId>mc-fe-web</artifactId>
-    <version>1.0- SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <name>mc-fe-web</name>
 
@@ -61,10 +61,10 @@
                         </configuration>
                     </execution>
                 </executions>
-                <!--<configuration>
+                <configuration>
                     <archiveClasses>false</archiveClasses>
                     <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-                </configuration>-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.glassfish.maven.plugin</groupId>
