@@ -1,2 +1,2 @@
 # mini-chat
-simple web chat system with single server
+simple web chat system within a application server
