@@ -18,7 +18,18 @@
 
     <name>mc-fe-it</name>
 
+    <properties>
+        <h2.version>1.3.176</h2.version>
+        <postgres.version>9.4.1210.jre6</postgres.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>mc.db</groupId>
+            <artifactId>mc-db-schema</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -30,10 +41,17 @@
             <artifactId>glassfish-embedded-all</artifactId>
             <version>4.1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4.1210.jre6</version>
+            <version>${postgres.version}</version>
             <scope>test</scope>
         </dependency>
 
