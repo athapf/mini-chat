@@ -99,7 +99,7 @@ public class CommandParamBuilder {
         if(StringUtils.isNotEmpty(password)) {
             builder.append("password=").append(password).append(':');
         }
-        builder.append("url=").append(jdbcUrl.replaceAll(":","\\\\:"));
+        builder.append("url=").append(jdbcUrl.replaceAll(":","\\\\:").replaceAll("=","\\\\="));
 
         paramList.add(builder.toString());
         paramList.add(poolname);
