@@ -5,6 +5,8 @@ import de.thaso.mc.be.chat.service.ChatMessage;
 import de.thaso.mc.be.chat.service.ChatService;
 import de.thaso.minichat.db.store.ChatMessageDAO;
 import de.thaso.minichat.db.store.ChatMessageEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -22,6 +24,8 @@ import java.util.List;
 @Remote(ChatService.class)
 public class ChatServiceImpl implements ChatService {
 
+    public static final Logger LOG = LoggerFactory.getLogger(ChatServiceImpl.class);
+
     @Inject
     private ChatMessageDAO chatMessageDAO;
 
@@ -36,12 +40,16 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatMessage> findLast10ChatMessages() {
+        LOG.debug("findLast10ChatMessages ...");
         final List<ChatMessageEntity> lastChatMessageList = chatMessageDAO.findLastChatMessages();
-        return chatMessageMapper.chatMessageListToDOList(lastChatMessageList);
+        final List<ChatMessage> chatMessageList = chatMessageMapper.chatMessageListToDOList(lastChatMessageList);
+        LOG.debug(" ... found {} messages", chatMessageList.size());
+        return chatMessageList;
     }
 
     @Override
     public List<ChatMessage> find10ChatMessagesSince(final Date timestamp) {
+        LOG.debug("find10ChatMessagesSince({})", timestamp);
         final List<ChatMessageEntity> chatMessageList = chatMessageDAO.findChatMessagesSince(timestamp);
         return chatMessageMapper.chatMessageListToDOList(chatMessageList);
     }

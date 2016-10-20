@@ -1,6 +1,8 @@
 package de.thaso.minichat.db.it.utils;
 
 import de.thaso.minichat.db.schema.PropertiesManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,19 +17,21 @@ import java.util.Properties;
  */
 public class PersistenceStoreHelper {
 
-  private static final EntityManagerFactory entityManagerFactory;
-  private static final EntityManager entityManagerAud;
+    public static final Logger LOG = LoggerFactory.getLogger(PersistenceStoreHelper.class);
 
-  static {
-      entityManagerFactory = Persistence.createEntityManagerFactory("testdb", getConnectionProperties());
-      entityManagerAud = entityManagerFactory.createEntityManager();
-  }
+    private static final EntityManagerFactory entityManagerFactory;
+    private static final EntityManager entityManagerAud;
 
-  public static Properties getConnectionProperties() {
+    static {
+        entityManagerFactory = Persistence.createEntityManagerFactory("testdb", getConnectionProperties());
+        entityManagerAud = entityManagerFactory.createEntityManager();
+    }
+
+    public static Properties getConnectionProperties() {
       return PropertiesManager.readDevelopProperties();
   }
 
-  public static EntityManager getEntityManager() {
+    public static EntityManager getEntityManager() {
     return entityManagerAud;
   }
 }

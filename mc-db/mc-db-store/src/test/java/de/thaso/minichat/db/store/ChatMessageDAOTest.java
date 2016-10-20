@@ -20,6 +20,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -82,6 +83,7 @@ public class ChatMessageDAOTest {
         final ChatMessageEntity result = underTest.findChatMessageById(primaryKey);
         // then
         assertThat(result, is(nullValue()));
+        fail();
     }
 
     @Test
