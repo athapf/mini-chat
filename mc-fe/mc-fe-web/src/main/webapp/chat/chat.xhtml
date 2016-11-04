@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <h:outputStylesheet name="css/layout.css"/>
+</h:head>
+<h:body>
+    <f:view>
+        <h:outputLabel value="#{msg['chat.page.head']}"/>
+        <h:form id="form">
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <h:outputLabel styleClass="label" value="#{msg['chat.room.label']}" for="room"/>
+                        <h:outputText styleClass="value" id="room" value="#{chatRoomModel.room}"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel styleClass="label" value="#{msg['chat.nick.label']}" for="nick"/>
+                        <h:outputText id="nick" styleClass="value" value="#{chatRoomModel.nick}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" value="#{msg['chat.message.label']}" for="message"/>
+                    <h:inputTextarea id="message" styleClass="value dubble" value="#{chatRoomModel.message}" rows="5" cols="40"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:commandButton styleClass="button main" value="#{msg['chat.send.button']}" type="submit" action="#{chatController.sendChatMessage()}"/>
+                    <h:commandButton styleClass="button" value="#{msg['chat.clear.button']}" type="reset" action="#{chatController.clear()}"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:form>
+    </f:view>
+</h:body>
+</html>
